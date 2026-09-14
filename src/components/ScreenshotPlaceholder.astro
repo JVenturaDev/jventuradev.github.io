@@ -1,0 +1,43 @@
+---
+interface Props {
+  label: string;
+  compact?: boolean;
+}
+
+const { label, compact = false } = Astro.props;
+---
+
+<figure class:list={["screenshot-placeholder", { "screenshot-placeholder--compact": compact }]}>
+  <div class="screenshot-placeholder__surface" aria-hidden="true">
+    <span>Visual evidence reserved</span>
+  </div>
+  <figcaption>{label}</figcaption>
+</figure>
+
+<style>
+  .screenshot-placeholder {
+    margin: 0;
+  }
+
+  .screenshot-placeholder__surface {
+    display: grid;
+    min-height: clamp(14rem, 34vw, 25rem);
+    place-items: center;
+    padding: var(--space-5);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-muted);
+    color: var(--color-muted);
+    text-align: center;
+  }
+
+  .screenshot-placeholder--compact .screenshot-placeholder__surface {
+    min-height: 10rem;
+  }
+
+  figcaption {
+    margin-top: var(--space-2);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+</style>

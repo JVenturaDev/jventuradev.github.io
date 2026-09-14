@@ -1,0 +1,51 @@
+<section class="section" id="experience" aria-labelledby="experience-title">
+  <div class="container experience-layout">
+    <div>
+      <p class="eyebrow">Project experience</p>
+      <h2 id="experience-title">Engineering beyond the interface</h2>
+    </div>
+    <div class="experience-copy">
+      <p>
+        My work spans product interfaces, reusable packages, automated quality gates, and the
+        delivery workflows that keep releases dependable.
+      </p>
+      <ul class="feature-list">
+        <li>Designing typed APIs and maintainable component boundaries.</li>
+        <li>Building responsive, accessible experiences with progressive enhancement.</li>
+        <li>Using tests, static analysis, and CI checks to protect releases.</li>
+        <li>Documenting technical decisions for users and future maintainers.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .experience-layout {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .experience-layout h2,
+  .experience-copy p,
+  .experience-copy ul {
+    margin-block: 0;
+  }
+
+  .experience-copy {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 44rem;
+  }
+
+  .experience-copy > p {
+    color: var(--color-text);
+    font-size: var(--text-xl);
+    line-height: 1.5;
+  }
+
+  @media (min-width: 52rem) {
+    .experience-layout {
+      grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+    }
+  }
+</style>

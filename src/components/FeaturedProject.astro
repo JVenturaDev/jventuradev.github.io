@@ -1,0 +1,98 @@
+---
+import type { Project } from "../types/project";
+import ScreenshotPlaceholder from "./ScreenshotPlaceholder.astro";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<section class="section" id="projects" aria-labelledby="featured-project-title">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Featured project</p>
+        <h2 id="featured-project-title">{project.title}</h2>
+      </div>
+      <ul class="status-list" aria-label="Project status">
+        <li>Finished</li>
+        <li>Public repository</li>
+        <li>Live demo</li>
+      </ul>
+    </div>
+
+    <article class="featured-project">
+      <ScreenshotPlaceholder label={project.screenshots[0]?.label ?? "Project screenshot coming soon"} />
+      <div class="featured-project__content">
+        <p class="project-role">{project.role}</p>
+        <p class="featured-project__summary">{project.summary}</p>
+        <p>{project.description}</p>
+        {project.challenge && (
+          <div>
+            <h3>Technical challenge</h3>
+            <p>{project.challenge}</p>
+          </div>
+        )}
+        {project.highlights && (
+          <div>
+            <h3>Engineering highlights</h3>
+            <ul class="feature-list">
+              {project.highlights.map((highlight) => <li>{highlight}</li>)}
+            </ul>
+          </div>
+        )}
+        <ul class="tag-list" aria-label="Technologies">
+          {project.stack.map((technology) => <li>{technology}</li>)}
+        </ul>
+        {project.links && (
+          <div class="button-row" role="group" aria-label={`${project.title} links`}>
+            {project.links.map((link, index) => (
+              <a class:list={["button", { "button--primary": index === 0 }]} href={link.href}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .featured-project {
+    display: grid;
+    gap: var(--space-7);
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .featured-project__content {
+    display: grid;
+    align-content: start;
+    gap: var(--space-5);
+  }
+
+  .featured-project__content p,
+  .featured-project__content h3,
+  .featured-project__content ul {
+    margin-block: 0;
+  }
+
+  .featured-project__summary {
+    color: var(--color-text);
+    font-size: var(--text-xl);
+    font-weight: 750;
+    line-height: 1.35;
+  }
+
+  @media (min-width: 64rem) {
+    .featured-project {
+      grid-template-columns: minmax(0, 1.35fr) minmax(22rem, 0.85fr);
+    }
+  }
+</style>

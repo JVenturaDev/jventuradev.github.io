@@ -1,0 +1,47 @@
+---
+import type { Project } from "../types/project";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  projects: readonly Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section class="section" aria-labelledby="selected-projects-title">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2 id="selected-projects-title">More projects</h2>
+      </div>
+      <p>Libraries, interface systems, and active cross-platform work.</p>
+    </div>
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .project-grid > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 54rem) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-grid > :last-child {
+      grid-column: auto;
+    }
+  }
+</style>

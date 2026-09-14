@@ -1,0 +1,30 @@
+{
+  "name": "jventura-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.8.0",
+    "npm": ">=11"
+  },
+  "packageManager": "npm@11.6.2",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "typecheck": "astro check",
+    "build": "astro build",
+    "preview": "astro preview",
+    "validate:html": "npm run build && npm run validate:html:dist",
+    "validate:html:dist": "html-validate \"dist/**/*.html\"",
+    "check:links": "node scripts/check-links.mjs",
+    "check": "npm run typecheck && npm run build && npm run validate:html:dist && npm run check:links"
+  },
+  "dependencies": {
+    "astro": "7.3.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "html-validate": "11.15.0",
+    "typescript": "6.0.3"
+  }
+}

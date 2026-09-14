@@ -1,0 +1,82 @@
+---
+import { contact } from "../data/contact";
+---
+
+<section class="section section--accent" id="contact" aria-labelledby="contact-title">
+  <div class="container contact-layout">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h2 id="contact-title">Let&rsquo;s build something thoughtful.</h2>
+      <p class="contact-intro">
+        The best place to review my public work or start a conversation is GitHub.
+      </p>
+    </div>
+    <ul class="contact-list">
+      <li>
+        <span>GitHub</span>
+        <a href={contact.github}>github.com/JVenturaDev</a>
+      </li>
+      <li>
+        <span>Email</span>
+        <span class="contact-placeholder">Available on request</span>
+      </li>
+      <li>
+        <span>LinkedIn</span>
+        <span class="contact-placeholder">Profile link coming soon</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contact-layout {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .contact-layout h2,
+  .contact-intro {
+    margin-block: 0;
+  }
+
+  .contact-intro {
+    max-width: 38rem;
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+  }
+
+  .contact-list {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-list li {
+    display: grid;
+    grid-template-columns: minmax(5rem, 0.35fr) minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .contact-list li > span:first-child {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-placeholder {
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 52rem) {
+    .contact-layout {
+      grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+      align-items: end;
+    }
+  }
+</style>

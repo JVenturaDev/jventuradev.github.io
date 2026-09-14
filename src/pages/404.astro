@@ -1,0 +1,36 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../utils/paths";
+---
+
+<BaseLayout
+  title="Page not found | Jonathan Ventura"
+  description="The requested page could not be found."
+>
+  <SiteHeader />
+  <main class="not-found container" id="main-content">
+    <p class="eyebrow">404</p>
+    <h1>That page is not here.</h1>
+    <p>The address may have changed, or the page may never have existed.</p>
+    <a class="button button--primary" href={withBase("")}>Return to the portfolio</a>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: 65vh;
+    align-content: center;
+    justify-items: start;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+  }
+
+  .not-found h1,
+  .not-found p {
+    margin-block: 0;
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+import { skillGroups } from "../data/skills";
+---
+
+<section class="section section--muted" id="skills" aria-labelledby="skills-title">
+  <div class="container">
+    <div class="section-heading section-heading--narrow">
+      <div>
+        <p class="eyebrow">Technical toolkit</p>
+        <h2 id="skills-title">Skills</h2>
+      </div>
+      <p>A practical stack for building, validating, and maintaining web products.</p>
+    </div>
+
+    <div class="skills-grid">
+      {skillGroups.map((group) => (
+        <article class="skill-group">
+          <h3>{group.title}</h3>
+          <ul class="tag-list" aria-label={`${group.title} skills`}>
+            {group.skills.map((skill) => <li>{skill}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .skill-group {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .skill-group h3 {
+    margin: 0 0 var(--space-4);
+    font-size: var(--text-lg);
+  }
+
+  @media (min-width: 48rem) {
+    .skills-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+import type { Project } from "../types/project";
+import ScreenshotPlaceholder from "./ScreenshotPlaceholder.astro";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const statusLabel = project.status === "finished" ? "Finished" : "In Development";
+const visibilityLabel = project.visibility === "public" ? "Public repository" : "Private Project";
+const hasLiveDemo = project.links?.some((link) => link.label === "Live Demo");
+const isPublishedPackage = project.links?.some((link) => link.label === "npm");
+---
+
+<article class:list={["project-card", { "project-card--private": project.visibility === "private" }]}>
+  <div class="project-card__header">
+    <div>
+      <p class="project-role">{project.role}</p>
+      <h3>{project.title}</h3>
+    </div>
+    <ul class="status-list" aria-label="Project status">
+      <li>{statusLabel}</li>
+      <li>{visibilityLabel}</li>
+      {isPublishedPackage && <li>Published npm library</li>}
+      {hasLiveDemo && <li>Live demo</li>}
+    </ul>
+  </div>
+
+  <p class="project-card__summary">{project.summary}</p>
+  <p>{project.description}</p>
+
+  {project.challenge && (
+    <div>
+      <h4>Technical challenge</h4>
+      <p>{project.challenge}</p>
+    </div>
+  )}
+
+  {project.highlights && (
+    <ul class="feature-list">
+      {project.highlights.map((highlight) => <li>{highlight}</li>)}
+    </ul>
+  )}
+
+  <div class:list={["project-card__screenshots", { "project-card__screenshots--multiple": project.screenshots.length > 1 }]}>
+    {project.screenshots.map((screenshot) => (
+      <ScreenshotPlaceholder label={screenshot.label} compact={project.screenshots.length > 1} />
+    ))}
+  </div>
+
+  <ul class="tag-list" aria-label={`${project.title} technologies`}>
+    {project.stack.map((technology) => <li>{technology}</li>)}
+  </ul>
+
+  {project.privacyNote && <p class="privacy-note">{project.privacyNote}</p>}
+
+  {project.links ? (
+    <div class="button-row" role="group" aria-label={`${project.title} links`}>
+      {project.links.map((link) => <a class="button" href={link.href}>{link.label}</a>)}
+    </div>
+  ) : (
+    <p class="project-card__availability">In Development · Private Project</p>
+  )}
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .project-card--private {
+    border-style: dashed;
+    background: var(--color-private-surface);
+  }
+
+  .project-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  h3,
+  h4,
+  p,
+  ul {
+    margin-block: 0;
+  }
+
+  h3 {
+    margin-top: var(--space-2);
+    font-size: var(--text-2xl);
+  }
+
+  h4 {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .project-card__summary {
+    color: var(--color-text);
+    font-size: var(--text-lg);
+    font-weight: 750;
+    line-height: 1.4;
+  }
+
+  .project-card__screenshots {
+    margin-top: auto;
+  }
+
+  .project-card__screenshots--multiple {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .privacy-note,
+  .project-card__availability {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  @media (max-width: 38rem) {
+    .project-card__header {
+      flex-direction: column;
+    }
+  }
+</style>
