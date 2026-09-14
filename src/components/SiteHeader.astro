@@ -9,8 +9,8 @@ import { withBase } from "../utils/paths";
     <a class="site-header__brand" href={withBase("#top")}>{profile.name}</a>
     <nav aria-label="Primary navigation">
       <ul class="site-header__nav">
-        <li><a href={withBase("#about")}>About</a></li>
         <li><a href={withBase("#projects")}>Projects</a></li>
+        <li><a href={withBase("#about")}>About</a></li>
         <li><a href={withBase("#skills")}>Skills</a></li>
         <li><a href={withBase("#contact")}>Contact</a></li>
         <li><a href={contact.github}>GitHub</a></li>
@@ -21,9 +21,12 @@ import { withBase } from "../utils/paths";
 
 <style>
   .site-header {
-    position: relative;
+    position: sticky;
+    z-index: 20;
+    top: 0;
     border-bottom: 1px solid var(--color-border);
-    background: var(--color-background);
+    background: color-mix(in srgb, var(--color-canvas) 92%, transparent);
+    backdrop-filter: blur(0.75rem);
   }
 
   .site-header__inner {
@@ -31,7 +34,7 @@ import { withBase } from "../utils/paths";
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
-    min-height: 4.5rem;
+    min-height: 4.25rem;
   }
 
   .site-header__brand {
@@ -41,10 +44,15 @@ import { withBase } from "../utils/paths";
     text-decoration: none;
   }
 
+  .site-header__brand::after {
+    color: var(--color-accent);
+    content: ".";
+  }
+
   .site-header__nav {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4);
+    gap: clamp(var(--space-3), 2vw, var(--space-5));
     margin: 0;
     padding: 0;
     list-style: none;
@@ -55,6 +63,7 @@ import { withBase } from "../utils/paths";
     font-size: var(--text-sm);
     font-weight: 700;
     text-decoration: none;
+    transition: color var(--transition-fast);
   }
 
   .site-header__nav a:hover {
@@ -62,14 +71,19 @@ import { withBase } from "../utils/paths";
   }
 
   @media (max-width: 42rem) {
+    .site-header {
+      position: relative;
+    }
+
     .site-header__inner {
-      align-items: flex-start;
-      flex-direction: column;
-      padding-block: var(--space-4);
+      display: grid;
+      gap: var(--space-2);
+      padding-block: var(--space-3);
     }
 
     .site-header__nav {
-      gap: var(--space-2) var(--space-4);
+      gap: var(--space-2) var(--space-5);
+      line-height: 1.8;
     }
   }
 </style>

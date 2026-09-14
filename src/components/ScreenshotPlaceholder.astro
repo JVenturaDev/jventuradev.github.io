@@ -1,15 +1,16 @@
 ---
 interface Props {
   label: string;
-  compact?: boolean;
+  ratio?: "wide" | "portrait" | "technical";
 }
 
-const { label, compact = false } = Astro.props;
+const { label, ratio = "wide" } = Astro.props;
 ---
 
-<figure class:list={["screenshot-placeholder", { "screenshot-placeholder--compact": compact }]}>
+<figure class:list={["screenshot-placeholder", `screenshot-placeholder--${ratio}`]}>
   <div class="screenshot-placeholder__surface" aria-hidden="true">
-    <span>Visual evidence reserved</span>
+    <span class="screenshot-placeholder__mark"></span>
+    <span>Screenshot area reserved</span>
   </div>
   <figcaption>{label}</figcaption>
 </figure>
@@ -21,23 +22,45 @@ const { label, compact = false } = Astro.props;
 
   .screenshot-placeholder__surface {
     display: grid;
-    min-height: clamp(14rem, 34vw, 25rem);
+    min-height: 10rem;
     place-items: center;
+    align-content: center;
+    gap: var(--space-3);
     padding: var(--space-5);
     border: 1px dashed var(--color-border-strong);
     border-radius: var(--radius-lg);
     background: var(--color-surface-muted);
     color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
     text-align: center;
+    text-transform: uppercase;
   }
 
-  .screenshot-placeholder--compact .screenshot-placeholder__surface {
-    min-height: 10rem;
+  .screenshot-placeholder__mark {
+    width: 2.5rem;
+    height: 0.2rem;
+    border-radius: 999px;
+    background: var(--color-border-strong);
+  }
+
+  .screenshot-placeholder--wide .screenshot-placeholder__surface {
+    aspect-ratio: 16 / 9;
+  }
+
+  .screenshot-placeholder--portrait .screenshot-placeholder__surface {
+    aspect-ratio: 4 / 5;
+  }
+
+  .screenshot-placeholder--technical .screenshot-placeholder__surface {
+    aspect-ratio: 16 / 8;
   }
 
   figcaption {
-    margin-top: var(--space-2);
+    margin-top: var(--space-3);
     color: var(--color-muted);
+    font-family: var(--font-mono);
     font-size: var(--text-sm);
   }
 </style>

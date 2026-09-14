@@ -8,6 +8,41 @@ import { profile } from "../data/profile";
       <p class="eyebrow">Profile</p>
       <h2 id="about-title">About</h2>
     </div>
-    <p class="section-lead">{profile.about}</p>
+    <div class="about-copy">
+      <p class="section-lead">{profile.about}</p>
+      <ul class="about-focus" aria-label="Engineering focus areas">
+        <li>Architecture</li>
+        <li>Maintainability</li>
+        <li>Testing</li>
+        <li>Product usability</li>
+      </ul>
+    </div>
   </div>
 </section>
+
+<style>
+  .about-copy {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .about-focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-5);
+    margin: 0;
+    padding: var(--space-4) 0 0;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    list-style: none;
+    text-transform: uppercase;
+  }
+
+  .about-focus li::before {
+    margin-right: var(--space-2);
+    color: var(--color-accent);
+    content: "/";
+  }
+</style>

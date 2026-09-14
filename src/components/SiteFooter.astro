@@ -1,5 +1,6 @@
 ---
 import { withBase } from "../utils/paths";
+import { contact } from "../data/contact";
 
 const year = new Date().getFullYear();
 ---
@@ -7,7 +8,10 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <p>&copy; {year} Jonathan Ventura. Built with Astro and plain CSS.</p>
-    <a href={withBase("#top")}>Back to top</a>
+    <div class="site-footer__links">
+      <a href={contact.github}>GitHub</a>
+      <a href={withBase("#top")}>Back to top</a>
+    </div>
   </div>
 </footer>
 
@@ -29,5 +33,10 @@ const year = new Date().getFullYear();
     margin: 0;
     color: var(--color-muted);
     font-size: var(--text-sm);
+  }
+
+  .site-footer__links {
+    display: flex;
+    gap: var(--space-5);
   }
 </style>

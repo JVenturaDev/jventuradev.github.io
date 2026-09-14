@@ -1,0 +1,70 @@
+---
+import type { ProjectScreenshot } from "../types/project";
+import { withBase } from "../utils/paths";
+import ScreenshotPlaceholder from "./ScreenshotPlaceholder.astro";
+
+interface Props {
+  screenshot: ProjectScreenshot;
+  ratio?: "wide" | "portrait" | "technical";
+  priority?: boolean;
+}
+
+const { screenshot, ratio = "wide", priority = false } = Astro.props;
+const image = screenshot.src && screenshot.alt && screenshot.width && screenshot.height
+  ? {
+      src: withBase(screenshot.src),
+      alt: screenshot.alt,
+      width: screenshot.width,
+      height: screenshot.height,
+    }
+  : undefined;
+
+if (screenshot.src && !image) {
+  throw new Error(`Media metadata is incomplete for ${screenshot.label}.`);
+}
+---
+
+{image ? (
+  <figure class="project-media">
+    <div class="project-media__frame">
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : "auto"}
+        decoding="async"
+      />
+    </div>
+    {screenshot.caption && <figcaption>{screenshot.caption}</figcaption>}
+  </figure>
+) : (
+  <ScreenshotPlaceholder label={screenshot.label} ratio={ratio} />
+)}
+
+<style>
+  .project-media {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .project-media__frame {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: #101116;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  figcaption {
+    margin-top: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+</style>

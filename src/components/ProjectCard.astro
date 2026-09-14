@@ -1,6 +1,7 @@
 ---
 import type { Project } from "../types/project";
-import ScreenshotPlaceholder from "./ScreenshotPlaceholder.astro";
+import PolishEngineEvidence from "./PolishEngineEvidence.astro";
+import ProjectMedia from "./ProjectMedia.astro";
 
 interface Props {
   project: Project;
@@ -11,43 +12,51 @@ const statusLabel = project.status === "finished" ? "Finished" : "In Development
 const visibilityLabel = project.visibility === "public" ? "Public repository" : "Private Project";
 const hasLiveDemo = project.links?.some((link) => link.label === "Live Demo");
 const isPublishedPackage = project.links?.some((link) => link.label === "npm");
+const visibleHighlights = project.highlights?.slice(0, 2);
+const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
+  if (project.visibility === "public") return "technical";
+  return index === 0 ? "wide" : "portrait";
+};
 ---
 
 <article class:list={["project-card", { "project-card--private": project.visibility === "private" }]}>
   <div class="project-card__header">
-    <div>
-      <p class="project-role">{project.role}</p>
-      <h3>{project.title}</h3>
-    </div>
+    <p class="project-role">{project.role}</p>
     <ul class="status-list" aria-label="Project status">
-      <li>{statusLabel}</li>
-      <li>{visibilityLabel}</li>
-      {isPublishedPackage && <li>Published npm library</li>}
-      {hasLiveDemo && <li>Live demo</li>}
+      <li class={project.status === "finished" ? "status--active" : undefined}>{statusLabel}</li>
+      <li class={project.visibility === "private" ? "status--private" : undefined}>{visibilityLabel}</li>
+      {isPublishedPackage && <li class="status--active">Published npm package</li>}
+      {hasLiveDemo && <li class="status--active">Live demo</li>}
     </ul>
+    <h3>{project.title}</h3>
   </div>
 
   <p class="project-card__summary">{project.summary}</p>
-  <p>{project.description}</p>
 
-  {project.challenge && (
-    <div>
-      <h4>Technical challenge</h4>
-      <p>{project.challenge}</p>
-    </div>
-  )}
-
-  {project.highlights && (
+  {visibleHighlights && (
     <ul class="feature-list">
-      {project.highlights.map((highlight) => <li>{highlight}</li>)}
+      {visibleHighlights.map((highlight) => <li>{highlight}</li>)}
     </ul>
   )}
 
-  <div class:list={["project-card__screenshots", { "project-card__screenshots--multiple": project.screenshots.length > 1 }]}>
-    {project.screenshots.map((screenshot) => (
-      <ScreenshotPlaceholder label={screenshot.label} compact={project.screenshots.length > 1} />
-    ))}
-  </div>
+  {project.id === "polish-engine" ? (
+    <div class="project-card__screenshots"><PolishEngineEvidence /></div>
+  ) : project.id === "sayui" ? (
+    <div class="project-card__screenshots project-card__media-set">
+      {project.screenshots[0] && <ProjectMedia screenshot={project.screenshots[0]} ratio="technical" />}
+      <div class="project-card__supporting-media">
+        {project.screenshots.slice(1).map((screenshot) => (
+          <div><ProjectMedia screenshot={screenshot} ratio="technical" /></div>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class:list={["project-card__screenshots", { "project-card__screenshots--multiple": project.screenshots.length > 1 }]}>
+      {project.screenshots.map((screenshot, index) => (
+        <ProjectMedia screenshot={screenshot} ratio={screenshotRatio(index)} />
+      ))}
+    </div>
+  )}
 
   <ul class="tag-list" aria-label={`${project.title} technologies`}>
     {project.stack.map((technology) => <li>{technology}</li>)}
@@ -55,12 +64,10 @@ const isPublishedPackage = project.links?.some((link) => link.label === "npm");
 
   {project.privacyNote && <p class="privacy-note">{project.privacyNote}</p>}
 
-  {project.links ? (
+  {project.links && (
     <div class="button-row" role="group" aria-label={`${project.title} links`}>
       {project.links.map((link) => <a class="button" href={link.href}>{link.label}</a>)}
     </div>
-  ) : (
-    <p class="project-card__availability">In Development · Private Project</p>
   )}
 </article>
 
@@ -69,46 +76,50 @@ const isPublishedPackage = project.links?.some((link) => link.label === "npm");
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
-    padding: clamp(1.25rem, 3vw, 2rem);
+    padding: clamp(1.25rem, 3vw, 1.8rem);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
+    box-shadow: var(--shadow-raised);
+    transition: border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .project-card:hover {
+    border-color: var(--color-border-strong);
+    transform: translateY(-0.15rem);
   }
 
   .project-card--private {
     border-style: dashed;
     background: var(--color-private-surface);
+    box-shadow: none;
   }
 
   .project-card__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    display: grid;
     gap: var(--space-4);
   }
 
   h3,
-  h4,
   p,
   ul {
     margin-block: 0;
   }
 
   h3 {
-    margin-top: var(--space-2);
     font-size: var(--text-2xl);
-  }
-
-  h4 {
-    margin-bottom: var(--space-2);
-    font-size: var(--text-base);
   }
 
   .project-card__summary {
     color: var(--color-text);
     font-size: var(--text-lg);
-    font-weight: 750;
-    line-height: 1.4;
+    font-weight: 720;
+    line-height: 1.45;
+  }
+
+  .project-card .feature-list {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
   }
 
   .project-card__screenshots {
@@ -120,16 +131,51 @@ const isPublishedPackage = project.links?.some((link) => link.label === "npm");
     gap: var(--space-3);
   }
 
-  .privacy-note,
-  .project-card__availability {
+  .project-card__media-set {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .project-card__supporting-media {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(5rem, 0.43fr);
+    align-items: start;
+    gap: var(--space-3);
+  }
+
+  .project-card__supporting-media > div {
+    min-width: 0;
+  }
+
+  .privacy-note {
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--color-border);
     color: var(--color-muted);
     font-size: var(--text-sm);
     font-weight: 700;
   }
 
-  @media (max-width: 38rem) {
-    .project-card__header {
-      flex-direction: column;
+  @media (min-width: 54rem) {
+    .project-card--private .project-card__screenshots--multiple {
+      grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 0.55fr));
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .project-card__supporting-media {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-card__supporting-media > div:last-child {
+      width: min(100%, 10rem);
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card:hover {
+      transform: none;
     }
   }
 </style>

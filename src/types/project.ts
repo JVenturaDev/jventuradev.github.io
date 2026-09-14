@@ -8,8 +8,10 @@ export interface ProjectLink {
 
 export interface ProjectScreenshot {
   label: string;
-  path?: string;
+  src?: string;
   alt?: string;
+  width?: number;
+  height?: number;
   caption?: string;
 }
 
