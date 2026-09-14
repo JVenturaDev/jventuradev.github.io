@@ -15,10 +15,10 @@ export const projects = [
     challenge:
       "Designing predictable mathematical pipelines and interactive graphing while keeping symbolic operations controlled, unsupported cases explicit, and frontend/backend state clearly separated.",
     highlights: [
-      "Purpose-built CAS for supported simplification, differentiation, integration, limits, equations, and series.",
-      "Tokenization, postfix conversion, and RPN evaluation with complex-number and angle-mode support.",
-      "Interactive 2D lines, contours, and 3D surfaces with lazily loaded GL3D support.",
-      "Persistent browser and authenticated workspaces backed by frontend/backend tests and GitHub Actions.",
+      "Purpose-built CAS plus tokenization, postfix conversion, and RPN evaluation for controlled symbolic and numeric work.",
+      "Interactive 2D lines and contours alongside 3D surfaces with point inspection.",
+      "Offline browser workspaces and authenticated persistence built with Angular, Spring Boot, and PostgreSQL.",
+      "Frontend/backend tests and GitHub Actions protect calculation and release workflows.",
     ],
     stack: [
       "Angular",
@@ -82,8 +82,8 @@ export const projects = [
     stack: ["HTML", "SCSS", "CSS", "Accessibility", "npm", "GitHub Actions"],
     links: [
       { label: "Live Demo", href: "https://pixel-waffless.github.io/SayUI/" },
-      { label: "GitHub", href: "https://github.com/pixel-waffless/SayUI" },
-      { label: "npm", href: "https://www.npmjs.com/package/sayu-ui" },
+      { label: "GitHub Repository", href: "https://github.com/pixel-waffless/SayUI" },
+      { label: "npm Package", href: "https://www.npmjs.com/package/sayu-ui" },
     ],
     screenshots: [
       {
@@ -128,7 +128,7 @@ export const projects = [
     visibility: "public",
     featured: false,
     summary:
-      "A typed expression-processing library that converts infix notation to RPN and evaluates normalized real or complex results.",
+      "A typed expression-processing library that converts infix notation to Reverse Polish Notation (RPN) and evaluates normalized real or complex results.",
     description:
       "polish-engine packages expression preprocessing, tokenization, postfix conversion, stack evaluation, normalization, and optional calculation traces behind a typed public API. It is reusable infrastructure rather than another calculator interface.",
     challenge:
@@ -140,8 +140,8 @@ export const projects = [
     ],
     stack: ["TypeScript", "RPN", "Complex.js", "Vitest", "npm", "GitHub Actions"],
     links: [
-      { label: "GitHub", href: "https://github.com/JVenturaDev/JVPolishEngine" },
-      { label: "npm", href: "https://www.npmjs.com/package/polish-engine" },
+      { label: "GitHub Repository", href: "https://github.com/JVenturaDev/JVPolishEngine" },
+      { label: "npm Package", href: "https://www.npmjs.com/package/polish-engine" },
     ],
     screenshots: [{ label: "polish-engine typed API example coming soon" }],
   },

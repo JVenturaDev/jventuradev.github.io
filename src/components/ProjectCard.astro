@@ -9,9 +9,9 @@ interface Props {
 
 const { project } = Astro.props;
 const statusLabel = project.status === "finished" ? "Finished" : "In Development";
-const visibilityLabel = project.visibility === "public" ? "Public repository" : "Private Project";
+const visibilityLabel = project.visibility === "public" ? "Public Repository" : "Private Project";
 const hasLiveDemo = project.links?.some((link) => link.label === "Live Demo");
-const isPublishedPackage = project.links?.some((link) => link.label === "npm");
+const isPublishedPackage = project.links?.some((link) => link.href.includes("npmjs.com"));
 const visibleHighlights = project.highlights?.slice(0, 2);
 const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
   if (project.visibility === "public") return "technical";
@@ -19,14 +19,22 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
 };
 ---
 
-<article class:list={["project-card", { "project-card--private": project.visibility === "private" }]}>
+<article
+  class:list={[
+    "project-card",
+    {
+      "project-card--private": project.visibility === "private",
+      "project-card--technical": project.id === "polish-engine",
+    },
+  ]}
+>
   <div class="project-card__header">
     <p class="project-role">{project.role}</p>
     <ul class="status-list" aria-label="Project status">
       <li class={project.status === "finished" ? "status--active" : undefined}>{statusLabel}</li>
       <li class={project.visibility === "private" ? "status--private" : undefined}>{visibilityLabel}</li>
-      {isPublishedPackage && <li class="status--active">Published npm package</li>}
-      {hasLiveDemo && <li class="status--active">Live demo</li>}
+      {isPublishedPackage && <li class="status--active">Published on npm</li>}
+      {hasLiveDemo && <li class="status--active">Live Demo</li>}
     </ul>
     <h3>{project.title}</h3>
   </div>
@@ -40,7 +48,7 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
   )}
 
   {project.id === "polish-engine" ? (
-    <div class="project-card__screenshots"><PolishEngineEvidence /></div>
+    <div class="project-card__technical-media"><PolishEngineEvidence /></div>
   ) : project.id === "sayui" ? (
     <div class="project-card__screenshots project-card__media-set">
       {project.screenshots[0] && <ProjectMedia screenshot={project.screenshots[0]} ratio="technical" />}
@@ -95,6 +103,10 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
     box-shadow: none;
   }
 
+  .project-card--technical {
+    align-self: start;
+  }
+
   .project-card__header {
     display: grid;
     gap: var(--space-4);
@@ -124,6 +136,10 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
 
   .project-card__screenshots {
     margin-top: auto;
+  }
+
+  .project-card__technical-media {
+    min-width: 0;
   }
 
   .project-card__screenshots--multiple {
@@ -159,6 +175,16 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
     .project-card--private .project-card__screenshots--multiple {
       grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 0.55fr));
       align-items: start;
+    }
+  }
+
+  @media (min-width: 32rem) and (max-width: 53.999rem) {
+    .project-card--private .project-card__screenshots--multiple {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-card--private .project-card__screenshots--multiple > :first-child {
+      grid-column: 1 / -1;
     }
   }
 

@@ -11,17 +11,17 @@ import Skills from "../components/Skills.astro";
 import { featuredProject, secondaryProjects } from "../data/projects";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const title = "Jonathan Ventura | Software Engineer";
+const title = "Jonathan Ventura | Frontend & Angular Developer";
 const description =
-  "Portfolio of Jonathan Ventura, a software engineer focused on reliable web products, typed APIs, and thoughtful user experiences.";
+  "Portfolio of Jonathan Ventura, a frontend and Angular developer building reliable full-stack tools, TypeScript libraries, and cross-platform interfaces.";
 ---
 
 <BaseLayout title={title} description={description}>
   <SiteHeader />
   <main id="main-content">
     <Hero />
-    <About />
     <FeaturedProject project={featuredProject} />
+    <About />
     <ProjectGrid projects={secondaryProjects} />
     <Skills />
     <ProjectExperience />

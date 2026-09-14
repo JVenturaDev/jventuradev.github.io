@@ -46,6 +46,7 @@ src/
   types/       Shared content types
   utils/       Base-path-safe URL helpers
 scripts/       Repository validation utilities
+public/        Approved local project media
 ```
 
 ## Deployment plan
@@ -63,6 +64,8 @@ Internal navigation uses Astro's configured base URL, so the same source can be 
 
 Aiko is represented only through approved, high-level information and textual screenshot placeholders. This repository must not include its source code, repository URL, demo URL, credentials, private architecture details, or real screenshots until those materials are explicitly cleared for publication.
 
-## Asset policy
+## Media strategy
 
-No placeholder images or invented social preview assets are included. Real project screenshots, a favicon, and a social card can be added later through explicit layout props once approved assets exist.
+Approved Calculator and SayUI screenshots live locally in `public/images/` with explicit dimensions and descriptive alternative text. They are never hotlinked from external services. polish-engine is represented with semantic HTML/CSS API and pipeline evidence instead of a fabricated product interface.
+
+Aiko intentionally retains textual screenshot placeholders. No Aiko image, favicon, or social preview asset is included until a real asset is explicitly approved. The layout supports optional favicon and social metadata without referencing files that do not exist.

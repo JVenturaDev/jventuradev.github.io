@@ -15,6 +15,7 @@
 
   <div class="technical-evidence__pipeline">
     <p>Expression pipeline</p>
+    <small>RPN means Reverse Polish Notation: operators follow their operands.</small>
     <ol>
       <li>Tokenizer</li>
       <li>Parser</li>
@@ -94,6 +95,14 @@
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     list-style: none;
+  }
+
+  .technical-evidence__pipeline small {
+    display: block;
+    margin: calc(var(--space-2) * -1) 0 var(--space-4);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+    line-height: 1.55;
   }
 
   li {

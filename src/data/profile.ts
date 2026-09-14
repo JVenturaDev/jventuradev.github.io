@@ -6,5 +6,5 @@ export const profile = {
   heroSubheadline:
     "Software developer focused on Angular and frontend engineering, with hands-on experience building full-stack applications, npm libraries, and cross-platform interfaces.",
   about:
-    "I’m a software developer focused on frontend engineering with Angular and TypeScript. I build web applications, reusable developer libraries, and cross-platform interfaces, with attention to architecture, maintainability, testing, and product usability. My projects also include practical backend work with Java, Spring Boot, PostgreSQL, and REST APIs.",
+    "I approach software as both a product and an engineering problem: clarifying user flows, defining maintainable boundaries, and using tests, documentation, and release checks to keep change predictable.",
 } as const;
