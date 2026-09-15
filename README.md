@@ -2,6 +2,8 @@
 
 A static, one-page software engineering portfolio focused on clear project narratives, accessible presentation, and a small operational footprint.
 
+Live site: https://jventuradev.github.io/
+
 ## Stack
 
 - [Astro](https://astro.build/) with static output
@@ -49,16 +51,9 @@ scripts/       Repository validation utilities
 public/        Approved local project media
 ```
 
-## Deployment plan
+## Deployment
 
-The site currently uses `/` as its base path. To build for a project subpath such as `/portfolio/`, set `PUBLIC_BASE_PATH` before building:
-
-```powershell
-$env:PUBLIC_BASE_PATH = "/portfolio/"
-npm run check
-```
-
-Internal navigation uses Astro's configured base URL, so the same source can be deployed at either location. A future deployment should also set Astro's `site` option to the final public origin; canonical metadata is intentionally omitted until that origin is known.
+The production build targets the GitHub user site at `https://jventuradev.github.io/` with a root base path. Pull requests and pushes to `main` run validation in GitHub Actions; pushes to `main` also deploy the generated `dist/` artifact through the official GitHub Pages workflow.
 
 ## Private project policy
 

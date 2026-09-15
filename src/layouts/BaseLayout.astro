@@ -7,10 +7,11 @@ interface Props {
   image?: string;
   imageAlt?: string;
   favicon?: string;
+  noindex?: boolean;
 }
 
-const { title, description, image, imageAlt, favicon } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const { title, description, image, imageAlt, favicon, noindex = false } = Astro.props;
+const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site) : undefined;
 ---
 
 <!doctype html>
@@ -29,6 +30,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
     </script>
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#101514" media="(prefers-color-scheme: dark)" />
