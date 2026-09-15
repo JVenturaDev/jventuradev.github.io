@@ -1,0 +1,109 @@
+<button
+  class="theme-toggle"
+  type="button"
+  data-theme-toggle
+  aria-label="Change color theme"
+  aria-pressed="false"
+>
+  <span class="theme-toggle__indicator" aria-hidden="true"></span>
+  <span>Theme</span>
+  <strong data-theme-value>System</strong>
+</button>
+
+<script is:inline>
+  (() => {
+    const button = document.querySelector("[data-theme-toggle]");
+    const value = button?.querySelector("[data-theme-value]");
+    const preference = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const render = () => {
+      if (!(button instanceof HTMLButtonElement) || !(value instanceof HTMLElement)) return;
+      const manualTheme = document.documentElement.dataset.theme;
+      const effectiveTheme = manualTheme ?? (preference.matches ? "dark" : "light");
+      const displayTheme = manualTheme
+        ? `${manualTheme[0].toUpperCase()}${manualTheme.slice(1)}`
+        : `System / ${effectiveTheme[0].toUpperCase()}${effectiveTheme.slice(1)}`;
+      const nextTheme = effectiveTheme === "dark" ? "light" : "dark";
+
+      value.textContent = displayTheme;
+      button.setAttribute("aria-pressed", String(effectiveTheme === "dark"));
+      button.setAttribute("aria-label", `Switch to ${nextTheme} theme. Current theme: ${displayTheme}.`);
+    };
+
+    button?.addEventListener("click", () => {
+      const effectiveTheme = document.documentElement.dataset.theme
+        ?? (preference.matches ? "dark" : "light");
+      const nextTheme = effectiveTheme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = nextTheme;
+      try {
+        localStorage.setItem("portfolio-theme", nextTheme);
+      } catch {
+        // The selected theme still applies for the current page when storage is unavailable.
+      }
+      render();
+    });
+
+    preference.addEventListener("change", () => {
+      if (!document.documentElement.dataset.theme) render();
+    });
+
+    render();
+  })();
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-muted);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .theme-toggle:hover,
+  .theme-toggle:focus-visible {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    transform: translateY(-1px);
+  }
+
+  .theme-toggle__indicator {
+    width: 0.65rem;
+    height: 0.65rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .theme-toggle strong {
+    color: var(--color-text);
+    font-weight: 750;
+  }
+
+  @media (max-width: 42rem) {
+    .theme-toggle {
+      padding-inline: var(--space-3);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      transform: none;
+    }
+  }
+</style>

@@ -17,10 +17,20 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefin
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>
+      (() => {
+        try {
+          const theme = localStorage.getItem("portfolio-theme");
+          if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+        } catch {
+          // System preference remains active when storage is unavailable.
+        }
+      })();
+    </script>
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f5f4ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#101514" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

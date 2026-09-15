@@ -17,7 +17,7 @@ import { skillGroups } from "../data/skills";
         <article class="skill-group">
           <h3>{group.title}</h3>
           <ul class="tag-list" aria-label={`${group.title} skills`}>
-            {group.skills.map((skill) => <li>{skill}</li>)}
+            {group.skills.map((skill) => <li class="skill">{skill}</li>)}
           </ul>
         </article>
       ))}
@@ -46,9 +46,32 @@ import { skillGroups } from "../data/skills";
     letter-spacing: -0.02em;
   }
 
+  .skill {
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .skill:hover,
+  .skill:focus-visible {
+    border-color: var(--color-accent-strong);
+    background: var(--color-accent-strong);
+    color: var(--color-on-accent);
+    transform: translateY(-1px);
+  }
+
   @media (min-width: 48rem) {
     .skills-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skill:hover,
+    .skill:focus-visible {
+      transform: none;
     }
   }
 </style>

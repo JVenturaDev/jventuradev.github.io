@@ -25,6 +25,7 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
     {
       "project-card--private": project.visibility === "private",
       "project-card--technical": project.id === "polish-engine",
+      "project-card--aiko": project.id === "aiko",
     },
   ]}
 >
@@ -59,7 +60,15 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
       </div>
     </div>
   ) : (
-    <div class:list={["project-card__screenshots", { "project-card__screenshots--multiple": project.screenshots.length > 1 }]}>
+    <div
+      class:list={[
+        "project-card__screenshots",
+        {
+          "project-card__screenshots--multiple": project.screenshots.length > 1,
+          "project-card__screenshots--aiko": project.id === "aiko",
+        },
+      ]}
+    >
       {project.screenshots.map((screenshot, index) => (
         <ProjectMedia screenshot={screenshot} ratio={screenshotRatio(index)} />
       ))}
@@ -107,6 +116,10 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
     align-self: start;
   }
 
+  .project-card--aiko {
+    align-self: start;
+  }
+
   .project-card__header {
     display: grid;
     gap: var(--space-4);
@@ -142,6 +155,10 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
     min-width: 0;
   }
 
+  .project-card__screenshots--aiko {
+    margin-top: 0;
+  }
+
   .project-card__screenshots--multiple {
     display: grid;
     gap: var(--space-3);
@@ -172,18 +189,18 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
   }
 
   @media (min-width: 54rem) {
-    .project-card--private .project-card__screenshots--multiple {
-      grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 0.55fr));
+    .project-card__screenshots--aiko {
+      grid-template-columns: minmax(0, 1.12fr) repeat(2, minmax(0, 0.5fr));
       align-items: start;
     }
   }
 
   @media (min-width: 32rem) and (max-width: 53.999rem) {
-    .project-card--private .project-card__screenshots--multiple {
+    .project-card__screenshots--aiko {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .project-card--private .project-card__screenshots--multiple > :first-child {
+    .project-card__screenshots--aiko > :first-child {
       grid-column: 1 / -1;
     }
   }

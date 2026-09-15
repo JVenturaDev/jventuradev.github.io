@@ -1,5 +1,7 @@
 ---
 import { contact } from "../data/contact";
+
+const emailHref = `mailto:${contact.email}`;
 ---
 
 <section class="section section--accent" id="contact" aria-labelledby="contact-title">
@@ -8,13 +10,16 @@ import { contact } from "../data/contact";
       <p class="eyebrow">Contact</p>
       <h2 id="contact-title">Let&rsquo;s build something thoughtful.</h2>
       <p class="contact-intro">
-        The best place to review my public work or start a conversation is GitHub.
+        I&rsquo;m open to job opportunities, collaboration, and thoughtful technical conversations.
       </p>
     </div>
     <div class="contact-action">
-      <p>Active contact channel</p>
-      <a class="button button--primary" href={contact.github}>View GitHub Profile</a>
-      <span>github.com/JVenturaDev</span>
+      <p>Get in touch</p>
+      <div class="button-row" role="group" aria-label="Contact actions">
+        <a class="button button--primary" href={emailHref}>Email Me</a>
+        <a class="button" href={contact.github}>GitHub</a>
+      </div>
+      <span>{contact.email}</span>
     </div>
   </div>
 </section>

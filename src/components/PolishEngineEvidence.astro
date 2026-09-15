@@ -1,9 +1,18 @@
 <div class="technical-evidence" role="group" aria-label="polish-engine public API evidence">
-  <div class="technical-evidence__example">
-    <p>Public API example</p>
+  <section class="technical-evidence__panel" aria-labelledby="simple-evaluation">
+    <p id="simple-evaluation">Simple evaluation</p>
     <pre><code><span class="code-keyword">const</span> engine = <span class="code-keyword">new</span> polishEngine();
 
-<span class="code-keyword">const</span> result = engine.evaluate(<span class="code-string">"sqrt(-4)"</span>, &#123;
+<span class="code-keyword">const</span> result = engine.evaluate(<span class="code-string">"2 + 3 * 4"</span>);</code></pre>
+    <div class="technical-evidence__result">
+      <span>Result</span>
+      <samp>14</samp>
+    </div>
+  </section>
+
+  <section class="technical-evidence__panel" aria-labelledby="advanced-evaluation">
+    <p id="advanced-evaluation">Advanced evaluation</p>
+    <pre><code><span class="code-keyword">const</span> result = engine.evaluate(<span class="code-string">"sqrt(-4)"</span>, &#123;
   steps: <span class="code-value">true</span>,
   normalize: <span class="code-value">true</span>
 &#125;);</code></pre>
@@ -11,10 +20,10 @@
       <span>Normalized result</span>
       <samp>2i</samp>
     </div>
-  </div>
+  </section>
 
-  <div class="technical-evidence__pipeline">
-    <p>Expression pipeline</p>
+  <section class="technical-evidence__panel technical-evidence__pipeline" aria-labelledby="expression-pipeline">
+    <p id="expression-pipeline">Expression pipeline</p>
     <small>RPN means Reverse Polish Notation: operators follow their operands.</small>
     <ol>
       <li>Tokenizer</li>
@@ -23,23 +32,20 @@
       <li>Evaluator</li>
       <li>Normalizer</li>
     </ol>
-  </div>
+  </section>
 </div>
 
 <style>
   .technical-evidence {
     display: grid;
-    gap: 1px;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-border);
+    gap: var(--space-4);
   }
 
-  .technical-evidence__example,
-  .technical-evidence__pipeline {
+  .technical-evidence__panel {
     min-width: 0;
     padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     background: var(--color-private-surface);
   }
 
@@ -55,6 +61,10 @@
   pre {
     margin: 0;
     overflow-x: auto;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-code-surface);
     color: var(--color-text);
     font-family: var(--font-mono);
     font-size: clamp(0.72rem, 1.5vw, 0.82rem);
@@ -71,7 +81,7 @@
     justify-content: space-between;
     gap: var(--space-4);
     margin-top: var(--space-4);
-    padding-top: var(--space-4);
+    padding-top: var(--space-3);
     border-top: 1px solid var(--color-border);
     color: var(--color-muted);
     font-size: var(--text-sm);
@@ -113,21 +123,7 @@
 
   li:not(:last-child)::after {
     color: var(--color-accent-strong);
-    content: "→";
+    content: "\2192";
   }
 
-  @media (min-width: 38rem) {
-    .technical-evidence {
-      grid-template-columns: minmax(0, 1.2fr) minmax(12rem, 0.8fr);
-    }
-
-    .technical-evidence__pipeline ol {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .technical-evidence__pipeline li:not(:last-child)::after {
-      content: "↓";
-    }
-  }
 </style>

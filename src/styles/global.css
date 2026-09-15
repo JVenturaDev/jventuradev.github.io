@@ -19,6 +19,33 @@ body {
   font-size: var(--text-base);
   line-height: 1.7;
   text-rendering: optimizeLegibility;
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+  scrollbar-width: thin;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+::selection {
+  background: var(--color-selection);
+  color: var(--color-text);
+}
+
+::-webkit-scrollbar {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 0.2rem solid var(--color-scrollbar-track);
+  border-radius: var(--radius-md);
+  background: var(--color-scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
 }
 
 button, input, textarea, select { font: inherit; }
@@ -125,9 +152,11 @@ p, li { overflow-wrap: anywhere; }
   transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
 }
 
-.button:hover {
+.button:hover,
+.button:focus-visible {
   border-color: var(--color-accent);
-  background: var(--color-surface-raised);
+  background: var(--color-accent-soft);
+  color: var(--color-text);
   transform: translateY(-0.1rem);
 }
 
@@ -137,7 +166,11 @@ p, li { overflow-wrap: anywhere; }
   color: var(--color-on-accent);
 }
 
-.button--primary:hover { background: var(--color-accent-strong); color: var(--color-on-accent); }
+.button--primary:hover,
+.button--primary:focus-visible {
+  background: var(--color-accent-strong);
+  color: var(--color-on-accent);
+}
 
 .text-link {
   display: inline-flex;
@@ -234,6 +267,8 @@ p, li { overflow-wrap: anywhere; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .button:hover,
+  .button:focus-visible { transform: none; }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;

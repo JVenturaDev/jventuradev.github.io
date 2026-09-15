@@ -2,6 +2,7 @@
 import { contact } from "../data/contact";
 import { profile } from "../data/profile";
 import { withBase } from "../utils/paths";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
 <header class="site-header">
@@ -14,6 +15,7 @@ import { withBase } from "../utils/paths";
         <li><a href={withBase("#skills")}>Skills</a></li>
         <li><a href={withBase("#contact")}>Contact</a></li>
         <li><a href={contact.github}>GitHub</a></li>
+        <li><ThemeToggle /></li>
       </ul>
     </nav>
   </div>
@@ -56,6 +58,11 @@ import { withBase } from "../utils/paths";
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .site-header__nav li {
+    display: flex;
+    align-items: center;
   }
 
   .site-header__nav a {
