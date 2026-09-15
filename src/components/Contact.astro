@@ -1,7 +1,9 @@
 ---
 import { contact } from "../data/contact";
+import { withBase } from "../utils/paths";
 
 const emailHref = `mailto:${contact.email}`;
+const cvHref = withBase(contact.cvPath);
 ---
 
 <section class="section section--accent" id="contact" aria-labelledby="contact-title">
@@ -17,6 +19,7 @@ const emailHref = `mailto:${contact.email}`;
       <p>Get in touch</p>
       <div class="button-row" role="group" aria-label="Contact actions">
         <a class="button button--primary" href={emailHref}>Email Me</a>
+        <a class="button" href={cvHref} download aria-label="Download Jonathan Ventura CV (PDF)">Download CV</a>
         <a class="button" href={contact.github}>GitHub</a>
       </div>
       <span>{contact.email}</span>

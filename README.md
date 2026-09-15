@@ -68,4 +68,6 @@ Aiko is represented only through approved, high-level information and textual sc
 
 Approved Calculator and SayUI screenshots live locally in `public/images/` with explicit dimensions and descriptive alternative text. They are never hotlinked from external services. polish-engine is represented with semantic HTML/CSS API and pipeline evidence instead of a fabricated product interface.
 
+The public CV used by the portfolio is stored at `public/cv/Jonathan-Ventura-CV.pdf`.
+
 Aiko intentionally retains textual screenshot placeholders. No Aiko image, favicon, or social preview asset is included until a real asset is explicitly approved. The layout supports optional favicon and social metadata without referencing files that do not exist.
