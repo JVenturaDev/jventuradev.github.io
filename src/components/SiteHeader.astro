@@ -3,18 +3,20 @@ import { contact } from "../data/contact";
 import { profile } from "../data/profile";
 import { withBase } from "../utils/paths";
 import ThemeToggle from "./ThemeToggle.astro";
+import LanguageToggle from "./LanguageToggle.astro";
 ---
 
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="site-header__brand" href={withBase("#top")}>{profile.name}</a>
-    <nav aria-label="Primary navigation">
+    <nav aria-label="Primary navigation" data-i18n-aria-label="nav.primaryLabel">
       <ul class="site-header__nav">
-        <li><a href={withBase("#projects")}>Projects</a></li>
-        <li><a href={withBase("#about")}>About</a></li>
-        <li><a href={withBase("#skills")}>Skills</a></li>
-        <li><a href={withBase("#contact")}>Contact</a></li>
+        <li><a href={withBase("#projects")} data-i18n="nav.projects">Projects</a></li>
+        <li><a href={withBase("#about")} data-i18n="nav.about">About</a></li>
+        <li><a href={withBase("#skills")} data-i18n="nav.skills">Skills</a></li>
+        <li><a href={withBase("#contact")} data-i18n="nav.contact">Contact</a></li>
         <li><a href={contact.github}>GitHub</a></li>
+        <li><LanguageToggle /></li>
         <li><ThemeToggle /></li>
       </ul>
     </nav>

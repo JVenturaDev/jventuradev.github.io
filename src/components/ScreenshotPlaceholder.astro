@@ -2,17 +2,18 @@
 interface Props {
   label: string;
   ratio?: "wide" | "portrait" | "technical";
+  i18nKey?: string | undefined;
 }
 
-const { label, ratio = "wide" } = Astro.props;
+const { label, ratio = "wide", i18nKey } = Astro.props;
 ---
 
 <figure class:list={["screenshot-placeholder", `screenshot-placeholder--${ratio}`]}>
   <div class="screenshot-placeholder__surface" aria-hidden="true">
     <span class="screenshot-placeholder__mark"></span>
-    <span>Screenshot area reserved</span>
+    <span data-i18n="media.placeholder">Screenshot area reserved</span>
   </div>
-  <figcaption>{label}</figcaption>
+  <figcaption data-i18n={i18nKey ? `${i18nKey}.label` : undefined}>{label}</figcaption>
 </figure>
 
 <style>

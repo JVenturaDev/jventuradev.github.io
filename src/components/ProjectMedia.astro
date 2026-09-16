@@ -7,9 +7,10 @@ interface Props {
   screenshot: ProjectScreenshot;
   ratio?: "wide" | "portrait" | "technical";
   priority?: boolean;
+  i18nKey?: string | undefined;
 }
 
-const { screenshot, ratio = "wide", priority = false } = Astro.props;
+const { screenshot, ratio = "wide", priority = false, i18nKey } = Astro.props;
 const image = screenshot.src && screenshot.alt && screenshot.width && screenshot.height
   ? {
       src: withBase(screenshot.src),
@@ -30,6 +31,7 @@ if (screenshot.src && !image) {
       <img
         src={image.src}
         alt={image.alt}
+        data-i18n-alt={i18nKey ? `${i18nKey}.alt` : undefined}
         width={image.width}
         height={image.height}
         loading={priority ? "eager" : "lazy"}
@@ -37,10 +39,10 @@ if (screenshot.src && !image) {
         decoding="async"
       />
     </div>
-    {screenshot.caption && <figcaption>{screenshot.caption}</figcaption>}
+    {screenshot.caption && <figcaption data-i18n={i18nKey ? `${i18nKey}.caption` : undefined}>{screenshot.caption}</figcaption>}
   </figure>
 ) : (
-  <ScreenshotPlaceholder label={screenshot.label} ratio={ratio} />
+  <ScreenshotPlaceholder label={screenshot.label} ratio={ratio} i18nKey={i18nKey} />
 )}
 
 <style>

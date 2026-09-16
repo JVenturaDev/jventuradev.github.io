@@ -1,30 +1,30 @@
-<div class="technical-evidence" role="group" aria-label="polish-engine public API evidence">
+<div class="technical-evidence" role="group" aria-label="polish-engine public API evidence" data-i18n-aria-label="evidence.label">
   <section class="technical-evidence__panel" aria-labelledby="simple-evaluation">
-    <p id="simple-evaluation">Simple evaluation</p>
+    <p id="simple-evaluation" data-i18n="evidence.simple">Simple evaluation</p>
     <pre><code><span class="code-keyword">const</span> engine = <span class="code-keyword">new</span> polishEngine();
 
 <span class="code-keyword">const</span> result = engine.evaluate(<span class="code-string">"2 + 3 * 4"</span>);</code></pre>
     <div class="technical-evidence__result">
-      <span>Result</span>
+      <span data-i18n="evidence.result">Result</span>
       <samp>14</samp>
     </div>
   </section>
 
   <section class="technical-evidence__panel" aria-labelledby="advanced-evaluation">
-    <p id="advanced-evaluation">Advanced evaluation</p>
+    <p id="advanced-evaluation" data-i18n="evidence.advanced">Advanced evaluation</p>
     <pre><code><span class="code-keyword">const</span> result = engine.evaluate(<span class="code-string">"sqrt(-4)"</span>, &#123;
   steps: <span class="code-value">true</span>,
   normalize: <span class="code-value">true</span>
 &#125;);</code></pre>
     <div class="technical-evidence__result">
-      <span>Normalized result</span>
+      <span data-i18n="evidence.normalizedResult">Normalized result</span>
       <samp>2i</samp>
     </div>
   </section>
 
   <section class="technical-evidence__panel technical-evidence__pipeline" aria-labelledby="expression-pipeline">
-    <p id="expression-pipeline">Expression pipeline</p>
-    <small>RPN means Reverse Polish Notation: operators follow their operands.</small>
+    <p id="expression-pipeline" data-i18n="evidence.pipeline">Expression pipeline</p>
+    <small data-i18n="evidence.rpnNote">RPN means Reverse Polish Notation: operators follow their operands.</small>
     <ol>
       <li>Tokenizer</li>
       <li>Parser</li>

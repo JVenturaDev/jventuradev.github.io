@@ -8,14 +8,16 @@ import { withBase } from "../utils/paths";
 <BaseLayout
   title="Page not found | Jonathan Ventura"
   description="The requested page could not be found."
+  titleKey="notFound.title"
+  descriptionKey="notFound.description"
   noindex
 >
   <SiteHeader />
   <main class="not-found container" id="main-content">
     <p class="eyebrow">404</p>
-    <h1>That page is not here.</h1>
-    <p>The address may have changed, or the page may never have existed.</p>
-    <a class="button button--primary" href={withBase("")}>Return to the portfolio</a>
+    <h1 data-i18n="notFound.heading">That page is not here.</h1>
+    <p data-i18n="notFound.copy">The address may have changed, or the page may never have existed.</p>
+    <a class="button button--primary" href={withBase("")} data-i18n="notFound.return">Return to the portfolio</a>
   </main>
   <SiteFooter />
 </BaseLayout>

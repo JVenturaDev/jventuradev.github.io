@@ -9,17 +9,17 @@ const cvHref = withBase(contact.cvPath);
 <section class="section section--accent" id="contact" aria-labelledby="contact-title">
   <div class="container contact-layout">
     <div>
-      <p class="eyebrow">Contact</p>
-      <h2 id="contact-title">Let&rsquo;s build something thoughtful.</h2>
-      <p class="contact-intro">
+      <p class="eyebrow" data-i18n="contact.eyebrow">Contact</p>
+      <h2 id="contact-title" data-i18n="contact.title">Let&rsquo;s build something thoughtful.</h2>
+      <p class="contact-intro" data-i18n="contact.intro">
         I&rsquo;m open to job opportunities, collaboration, and thoughtful technical conversations.
       </p>
     </div>
     <div class="contact-action">
-      <p>Get in touch</p>
-      <div class="button-row" role="group" aria-label="Contact actions">
-        <a class="button button--primary" href={emailHref}>Email Me</a>
-        <a class="button" href={cvHref} download aria-label="Download Jonathan Ventura CV (PDF)">Download CV</a>
+      <p data-i18n="contact.getInTouch">Get in touch</p>
+      <div class="button-row" role="group" aria-label="Contact actions" data-i18n-aria-label="contact.actionsLabel">
+        <a class="button button--primary" href={emailHref} data-i18n="contact.email">Email Me</a>
+        <a class="button" href={cvHref} download aria-label="Download Jonathan Ventura CV (PDF)" data-i18n="actions.downloadCv" data-i18n-aria-label="actions.downloadCvLabel">Download CV</a>
         <a class="button" href={contact.github}>GitHub</a>
       </div>
       <span>{contact.email}</span>

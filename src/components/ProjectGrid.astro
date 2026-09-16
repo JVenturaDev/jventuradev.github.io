@@ -13,10 +13,10 @@ const { projects } = Astro.props;
   <div class="container">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Selected work</p>
-        <h2 id="selected-projects-title">More projects</h2>
+        <p class="eyebrow" data-i18n="projects.selectedEyebrow">Selected work</p>
+        <h2 id="selected-projects-title" data-i18n="projects.moreTitle">More projects</h2>
       </div>
-      <p>Libraries, interface systems, and active cross-platform work.</p>
+      <p data-i18n="projects.moreIntro">Libraries, interface systems, and active cross-platform work.</p>
     </div>
     <div class="project-grid">
       {projects.map((project) => <ProjectCard project={project} />)}

@@ -8,14 +8,16 @@ interface Props {
   imageAlt?: string;
   favicon?: string;
   noindex?: boolean;
+  titleKey?: string;
+  descriptionKey?: string;
 }
 
-const { title, description, image, imageAlt, favicon, noindex = false } = Astro.props;
+const { title, description, image, imageAlt, favicon, noindex = false, titleKey = "meta.title", descriptionKey = "meta.description" } = Astro.props;
 const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site) : undefined;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-i18n-title-key={titleKey} data-i18n-description-key={descriptionKey}>
   <head>
     <meta charset="UTF-8" />
     <script is:inline>
@@ -25,6 +27,13 @@ const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.sit
           if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
         } catch {
           // System preference remains active when storage is unavailable.
+        }
+
+        try {
+          const language = localStorage.getItem("portfolio-language");
+          document.documentElement.lang = language === "es" ? "es" : "en";
+        } catch {
+          document.documentElement.lang = "en";
         }
       })();
     </script>
@@ -50,7 +59,7 @@ const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.sit
     <title>{title}</title>
   </head>
   <body id="top">
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content" data-i18n="ui.skipToContent">Skip to main content</a>
     <slot />
   </body>
 </html>

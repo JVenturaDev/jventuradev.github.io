@@ -15,57 +15,57 @@ const supportingScreenshots = project.screenshots.slice(1);
   <div class="container">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Featured project</p>
+        <p class="eyebrow" data-i18n="featured.eyebrow">Featured project</p>
         <h2 id="featured-project-title">{project.title}</h2>
       </div>
-      <ul class="status-list" aria-label="Project status">
-        <li class="status--featured">Featured</li>
-        <li class="status--active">Finished</li>
-        <li>Public Repository</li>
-        <li class="status--active">Live Demo</li>
+      <ul class="status-list" aria-label="Project status" data-i18n-aria-label="status.label">
+        <li class="status--featured" data-i18n="status.featured">Featured</li>
+        <li class="status--active" data-i18n="status.finished">Finished</li>
+        <li data-i18n="status.publicRepository">Public Repository</li>
+        <li class="status--active" data-i18n="status.liveDemo">Live Demo</li>
       </ul>
     </div>
 
     <article class="featured-project">
       <div class="featured-project__media">
-        <ProjectMedia screenshot={primaryScreenshot} ratio="wide" priority />
+        <ProjectMedia screenshot={primaryScreenshot} ratio="wide" priority i18nKey="projects.calculator.media.0" />
         {supportingScreenshots.length > 0 && (
           <div class="featured-project__gallery">
-            {supportingScreenshots.map((screenshot) => (
-              <ProjectMedia screenshot={screenshot} ratio="technical" />
+            {supportingScreenshots.map((screenshot, index) => (
+              <ProjectMedia screenshot={screenshot} ratio="technical" i18nKey={`projects.calculator.media.${index + 1}`} />
             ))}
           </div>
         )}
       </div>
       <div class="featured-project__content">
         <div class="featured-project__intro">
-          <p class="project-role">{project.role}</p>
-          <p class="featured-project__summary">{project.summary}</p>
-          <p>{project.description}</p>
+          <p class="project-role" data-i18n="projects.calculator.role">{project.role}</p>
+          <p class="featured-project__summary" data-i18n="projects.calculator.summary">{project.summary}</p>
+          <p data-i18n="projects.calculator.description">{project.description}</p>
           {project.challenge && (
             <div class="featured-project__challenge">
-              <h3>Technical challenge</h3>
-              <p>{project.challenge}</p>
+              <h3 data-i18n="featured.technicalChallenge">Technical challenge</h3>
+              <p data-i18n="projects.calculator.challenge">{project.challenge}</p>
             </div>
           )}
         </div>
         <div class="featured-project__details">
           {project.highlights && (
             <div>
-              <h3>Engineering highlights</h3>
+              <h3 data-i18n="featured.engineeringHighlights">Engineering highlights</h3>
               <ul class="feature-list">
-                {project.highlights.map((highlight) => <li>{highlight}</li>)}
+                {project.highlights.map((highlight, index) => <li data-i18n={`projects.calculator.highlight.${index}`}>{highlight}</li>)}
               </ul>
             </div>
           )}
-          <ul class="tag-list" aria-label="Technologies">
+          <ul class="tag-list" aria-label="Technologies" data-i18n-aria-label="projects.technologiesLabel">
             {project.stack.map((technology) => <li>{technology}</li>)}
           </ul>
           {project.links && (
-            <div class="button-row" role="group" aria-label={`${project.title} links`}>
+            <div class="button-row" role="group" aria-label={`${project.title} links`} data-i18n-aria-label="projects.calculator.linksLabel">
               {project.links.map((link, index) => (
                 <a class:list={["button", { "button--primary": index === 0 }]} href={link.href}>
-                  {link.label}
+                  <span data-i18n={index === 0 ? "actions.liveDemo" : "actions.sourceCode"}>{link.label}</span>
                 </a>
               ))}
             </div>

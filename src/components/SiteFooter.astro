@@ -7,10 +7,10 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <p>&copy; {year} Jonathan Ventura. Built with Astro and plain CSS.</p>
+    <p><span>&copy; {year} Jonathan Ventura. </span><span data-i18n="footer.copy">Built with Astro and plain CSS.</span></p>
     <div class="site-footer__links">
       <a href={contact.github}>GitHub</a>
-      <a href={withBase("#top")}>Back to top</a>
+      <a href={withBase("#top")} data-i18n="footer.backToTop">Back to top</a>
     </div>
   </div>
 </footer>

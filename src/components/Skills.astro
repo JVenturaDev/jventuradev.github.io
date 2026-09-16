@@ -1,22 +1,25 @@
 ---
 import { skillGroups } from "../data/skills";
+
+const titleKeys = [undefined, "skills.backendTitle", "skills.engineeringTitle"];
+const labelKeys = ["skills.frontendLabel", "skills.backendLabel", "skills.engineeringLabel"];
 ---
 
 <section class="section section--muted" id="skills" aria-labelledby="skills-title">
   <div class="container">
     <div class="section-heading section-heading--narrow">
       <div>
-        <p class="eyebrow">Technical toolkit</p>
-        <h2 id="skills-title">Skills</h2>
+        <p class="eyebrow" data-i18n="skills.eyebrow">Technical toolkit</p>
+        <h2 id="skills-title" data-i18n="skills.title">Skills</h2>
       </div>
-      <p>A practical stack for building, validating, and maintaining web products.</p>
+      <p data-i18n="skills.intro">A practical stack for building, validating, and maintaining web products.</p>
     </div>
 
     <div class="skills-grid">
-      {skillGroups.map((group) => (
+      {skillGroups.map((group, index) => (
         <article class="skill-group">
-          <h3>{group.title}</h3>
-          <ul class="tag-list" aria-label={`${group.title} skills`}>
+          <h3 data-i18n={titleKeys[index]}>{group.title}</h3>
+          <ul class="tag-list" aria-label={`${group.title} skills`} data-i18n-aria-label={labelKeys[index]}>
             {group.skills.map((skill) => <li class="skill">{skill}</li>)}
           </ul>
         </article>

@@ -13,6 +13,12 @@ const visibilityLabel = project.visibility === "public" ? "Public Repository" : 
 const hasLiveDemo = project.links?.some((link) => link.label === "Live Demo");
 const isPublishedPackage = project.links?.some((link) => link.href.includes("npmjs.com"));
 const visibleHighlights = project.highlights?.slice(0, 2);
+const projectKey = `projects.${project.id}`;
+const linkTranslationKey = (href: string) => href.includes("npmjs.com")
+  ? "actions.npmPackage"
+  : href.includes("github.com")
+    ? "actions.githubRepository"
+    : "actions.liveDemo";
 const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
   if (project.visibility === "public") return "technical";
   return index === 0 ? "wide" : "portrait";
@@ -30,21 +36,21 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
   ]}
 >
   <div class="project-card__header">
-    <p class="project-role">{project.role}</p>
-    <ul class="status-list" aria-label="Project status">
-      <li class={project.status === "finished" ? "status--active" : undefined}>{statusLabel}</li>
-      <li class={project.visibility === "private" ? "status--private" : undefined}>{visibilityLabel}</li>
-      {isPublishedPackage && <li class="status--active">Published on npm</li>}
-      {hasLiveDemo && <li class="status--active">Live Demo</li>}
+    <p class="project-role" data-i18n={`${projectKey}.role`}>{project.role}</p>
+    <ul class="status-list" aria-label="Project status" data-i18n-aria-label="status.label">
+      <li class={project.status === "finished" ? "status--active" : undefined} data-i18n={project.status === "finished" ? "status.finished" : "status.inDevelopment"}>{statusLabel}</li>
+      <li class={project.visibility === "private" ? "status--private" : undefined} data-i18n={project.visibility === "public" ? "status.publicRepository" : "status.privateProject"}>{visibilityLabel}</li>
+      {isPublishedPackage && <li class="status--active" data-i18n="status.publishedNpm">Published on npm</li>}
+      {hasLiveDemo && <li class="status--active" data-i18n="status.liveDemo">Live Demo</li>}
     </ul>
     <h3>{project.title}</h3>
   </div>
 
-  <p class="project-card__summary">{project.summary}</p>
+  <p class="project-card__summary" data-i18n={`${projectKey}.summary`}>{project.summary}</p>
 
   {visibleHighlights && (
     <ul class="feature-list">
-      {visibleHighlights.map((highlight) => <li>{highlight}</li>)}
+      {visibleHighlights.map((highlight, index) => <li data-i18n={`${projectKey}.highlight.${index}`}>{highlight}</li>)}
     </ul>
   )}
 
@@ -52,10 +58,10 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
     <div class="project-card__technical-media"><PolishEngineEvidence /></div>
   ) : project.id === "sayui" ? (
     <div class="project-card__screenshots project-card__media-set">
-      {project.screenshots[0] && <ProjectMedia screenshot={project.screenshots[0]} ratio="technical" />}
+      {project.screenshots[0] && <ProjectMedia screenshot={project.screenshots[0]} ratio="technical" i18nKey={`${projectKey}.media.0`} />}
       <div class="project-card__supporting-media">
-        {project.screenshots.slice(1).map((screenshot) => (
-          <div><ProjectMedia screenshot={screenshot} ratio="technical" /></div>
+        {project.screenshots.slice(1).map((screenshot, index) => (
+          <div><ProjectMedia screenshot={screenshot} ratio="technical" i18nKey={`${projectKey}.media.${index + 1}`} /></div>
         ))}
       </div>
     </div>
@@ -70,20 +76,20 @@ const screenshotRatio = (index: number): "wide" | "portrait" | "technical" => {
       ]}
     >
       {project.screenshots.map((screenshot, index) => (
-        <ProjectMedia screenshot={screenshot} ratio={screenshotRatio(index)} />
+        <ProjectMedia screenshot={screenshot} ratio={screenshotRatio(index)} i18nKey={`${projectKey}.media.${index}`} />
       ))}
     </div>
   )}
 
-  <ul class="tag-list" aria-label={`${project.title} technologies`}>
+  <ul class="tag-list" aria-label={`${project.title} technologies`} data-i18n-aria-label="projects.technologiesLabel">
     {project.stack.map((technology) => <li>{technology}</li>)}
   </ul>
 
-  {project.privacyNote && <p class="privacy-note">{project.privacyNote}</p>}
+  {project.privacyNote && <p class="privacy-note" data-i18n={`${projectKey}.privacy`}>{project.privacyNote}</p>}
 
   {project.links && (
-    <div class="button-row" role="group" aria-label={`${project.title} links`}>
-      {project.links.map((link) => <a class="button" href={link.href}>{link.label}</a>)}
+    <div class="button-row" role="group" aria-label={`${project.title} links`} data-i18n-aria-label={`${projectKey}.linksLabel`}>
+      {project.links.map((link) => <a class="button" href={link.href} data-i18n={linkTranslationKey(link.href)}>{link.label}</a>)}
     </div>
   )}
 </article>

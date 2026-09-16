@@ -5,16 +5,16 @@ import { profile } from "../data/profile";
 <section class="section" id="about" aria-labelledby="about-title">
   <div class="container split-section">
     <div>
-      <p class="eyebrow">Profile</p>
-      <h2 id="about-title">About</h2>
+      <p class="eyebrow" data-i18n="about.eyebrow">Profile</p>
+      <h2 id="about-title" data-i18n="about.title">About</h2>
     </div>
     <div class="about-copy">
-      <p class="section-lead">{profile.about}</p>
-      <ul class="about-focus" aria-label="Engineering focus areas">
-        <li>Architecture</li>
-        <li>Maintainability</li>
-        <li>Testing</li>
-        <li>Product usability</li>
+      <p class="section-lead" data-i18n="about.copy">{profile.about}</p>
+      <ul class="about-focus" aria-label="Engineering focus areas" data-i18n-aria-label="about.focusLabel">
+        <li data-i18n="about.architecture">Architecture</li>
+        <li data-i18n="about.maintainability">Maintainability</li>
+        <li data-i18n="about.testing">Testing</li>
+        <li data-i18n="about.usability">Product usability</li>
       </ul>
     </div>
   </div>

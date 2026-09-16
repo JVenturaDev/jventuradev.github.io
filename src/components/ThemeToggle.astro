@@ -6,7 +6,7 @@
   aria-pressed="false"
 >
   <span class="theme-toggle__indicator" aria-hidden="true"></span>
-  <span>Theme</span>
+  <span data-theme-label>Theme</span>
   <strong data-theme-value>System</strong>
 </button>
 
@@ -14,10 +14,16 @@
   (() => {
     const button = document.querySelector("[data-theme-toggle]");
     const value = button?.querySelector("[data-theme-value]");
+    const label = button?.querySelector("[data-theme-label]");
+    const translationData = document.querySelector("#portfolio-translations");
+    const translations = translationData instanceof HTMLScriptElement
+      ? JSON.parse(translationData.textContent || "{}")
+      : {};
     const preference = window.matchMedia("(prefers-color-scheme: dark)");
 
     const render = () => {
-      if (!(button instanceof HTMLButtonElement) || !(value instanceof HTMLElement)) return;
+      if (!(button instanceof HTMLButtonElement) || !(value instanceof HTMLElement) || !(label instanceof HTMLElement)) return;
+      const spanish = document.documentElement.lang === "es";
       const manualTheme = document.documentElement.dataset.theme;
       const effectiveTheme = manualTheme ?? (preference.matches ? "dark" : "light");
       const displayTheme = manualTheme
@@ -25,9 +31,16 @@
         : `System / ${effectiveTheme[0].toUpperCase()}${effectiveTheme.slice(1)}`;
       const nextTheme = effectiveTheme === "dark" ? "light" : "dark";
 
-      value.textContent = displayTheme;
+      const translatedEffectiveTheme = effectiveTheme === "dark" ? translations["theme.dark"] : translations["theme.light"];
+      const translatedTheme = manualTheme
+        ? translatedEffectiveTheme
+        : `${translations["theme.system"]} / ${translatedEffectiveTheme}`;
+      label.textContent = spanish ? translations["theme.label"] : "Theme";
+      value.textContent = spanish ? translatedTheme : displayTheme;
       button.setAttribute("aria-pressed", String(effectiveTheme === "dark"));
-      button.setAttribute("aria-label", `Switch to ${nextTheme} theme. Current theme: ${displayTheme}.`);
+      button.setAttribute("aria-label", spanish
+        ? `${translations[nextTheme === "dark" ? "theme.switchDark" : "theme.switchLight"]} ${translations["theme.current"]} ${translatedTheme}.`
+        : `Switch to ${nextTheme} theme. Current theme: ${displayTheme}.`);
     };
 
     button?.addEventListener("click", () => {
@@ -46,6 +59,8 @@
     preference.addEventListener("change", () => {
       if (!document.documentElement.dataset.theme) render();
     });
+
+    document.addEventListener("portfolio:languagechange", render);
 
     render();
   })();

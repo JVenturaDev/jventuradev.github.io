@@ -1,0 +1,125 @@
+---
+import { spanishTranslations } from "../data/i18n";
+
+const serializedTranslations = JSON.stringify(spanishTranslations).replaceAll("<", "\\u003c");
+---
+
+<button
+  class="language-toggle"
+  type="button"
+  data-language-toggle
+  aria-label="Switch language to Spanish. Current language: English."
+  aria-pressed="false"
+>
+  <span data-language-option="en">EN</span>
+  <span aria-hidden="true">/</span>
+  <span data-language-option="es">ES</span>
+</button>
+
+<script is:inline id="portfolio-translations" type="application/json" set:html={serializedTranslations}></script>
+<script is:inline>
+  (() => {
+    const button = document.querySelector("[data-language-toggle]");
+    const data = document.querySelector("#portfolio-translations");
+    if (!(button instanceof HTMLButtonElement) || !(data instanceof HTMLScriptElement)) return;
+
+    const translations = JSON.parse(data.textContent || "{}");
+    const titleKey = document.documentElement.dataset.i18nTitleKey || "meta.title";
+    const descriptionKey = document.documentElement.dataset.i18nDescriptionKey || "meta.description";
+    const originalText = new WeakMap();
+    const originalAttributes = new WeakMap();
+    const initialTitle = document.title;
+    const metadata = [
+      [document.querySelector('meta[name="description"]'), descriptionKey],
+      [document.querySelector('meta[property="og:title"]'), titleKey],
+      [document.querySelector('meta[property="og:description"]'), descriptionKey],
+      [document.querySelector('meta[name="twitter:title"]'), titleKey],
+      [document.querySelector('meta[name="twitter:description"]'), descriptionKey],
+    ];
+    const initialMetadata = new Map(metadata.map(([element]) => [element, element?.getAttribute("content") || ""]));
+
+    const applyLanguage = (language) => {
+      const selected = language === "es" ? "es" : "en";
+      document.documentElement.lang = selected;
+      document.documentElement.dataset.language = selected;
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        if (!originalText.has(element)) originalText.set(element, element.textContent || "");
+        const key = element.getAttribute("data-i18n");
+        element.textContent = selected === "es" && key && translations[key]
+          ? translations[key]
+          : originalText.get(element);
+      });
+
+      ["aria-label", "alt"].forEach((attribute) => {
+        document.querySelectorAll(`[data-i18n-${attribute}]`).forEach((element) => {
+          if (!originalAttributes.has(element)) originalAttributes.set(element, {});
+          const values = originalAttributes.get(element);
+          if (!(attribute in values)) values[attribute] = element.getAttribute(attribute) || "";
+          const key = element.getAttribute(`data-i18n-${attribute}`);
+          element.setAttribute(attribute, selected === "es" && key && translations[key]
+            ? translations[key]
+            : values[attribute]);
+        });
+      });
+
+      document.title = selected === "es" ? translations[titleKey] : initialTitle;
+      metadata.forEach(([element, key]) => element?.setAttribute("content", selected === "es" ? translations[key] : initialMetadata.get(element)));
+      button.setAttribute("aria-pressed", String(selected === "es"));
+      button.setAttribute("aria-label", selected === "es"
+        ? translations["ui.languageToEnglish"]
+        : "Switch language to Spanish. Current language: English.");
+      button.querySelectorAll("[data-language-option]").forEach((option) => {
+        option.toggleAttribute("data-active", option.getAttribute("data-language-option") === selected);
+      });
+      document.dispatchEvent(new CustomEvent("portfolio:languagechange", { detail: { language: selected } }));
+    };
+
+    button.addEventListener("click", () => {
+      const nextLanguage = document.documentElement.lang === "es" ? "en" : "es";
+      try {
+        localStorage.setItem("portfolio-language", nextLanguage);
+      } catch {
+        // The language still applies for the current page when storage is unavailable.
+      }
+      applyLanguage(nextLanguage);
+    });
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => applyLanguage(document.documentElement.lang), { once: true });
+    } else {
+      applyLanguage(document.documentElement.lang);
+    }
+  })();
+</script>
+
+<style>
+  .language-toggle {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-muted);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .language-toggle:hover,
+  .language-toggle:focus-visible {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+  }
+
+  [data-language-option][data-active] {
+    color: var(--color-accent-strong);
+    font-weight: 800;
+  }
+</style>

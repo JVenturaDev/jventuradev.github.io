@@ -1,0 +1,91 @@
+<button
+  class="mobile-floating-nav"
+  type="button"
+  data-mobile-floating-nav
+  aria-label="Go to projects"
+>
+  <span aria-hidden="true" data-mobile-floating-icon>↓</span>
+</button>
+
+<script is:inline>
+  (() => {
+    const button = document.querySelector("[data-mobile-floating-nav]");
+    const icon = button?.querySelector("[data-mobile-floating-icon]");
+    const hero = document.querySelector(".hero");
+    const projects = document.querySelector("#projects");
+    const top = document.querySelector("#top");
+    const translationData = document.querySelector("#portfolio-translations");
+    if (!(button instanceof HTMLButtonElement) || !(icon instanceof HTMLElement) || !hero || !projects || !top) return;
+    const translations = translationData instanceof HTMLScriptElement
+      ? JSON.parse(translationData.textContent || "{}")
+      : {};
+
+    let heroVisible = true;
+    const render = () => {
+      const spanish = document.documentElement.lang === "es";
+      icon.textContent = heroVisible ? "↓" : "↑";
+      button.setAttribute("aria-label", heroVisible
+        ? (spanish ? translations["ui.mobileProjects"] : "Go to projects")
+        : (spanish ? translations["ui.mobileTop"] : "Back to top"));
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      heroVisible = entry.intersectionRatio >= 0.25;
+      render();
+    }, { threshold: 0.25 });
+
+    observer.observe(hero);
+    document.addEventListener("portfolio:languagechange", render);
+    button.addEventListener("click", () => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      (heroVisible ? projects : top).scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    });
+    render();
+  })();
+</script>
+
+<style>
+  .mobile-floating-nav {
+    display: none;
+  }
+
+  @media (max-width: 48rem) {
+    .mobile-floating-nav {
+      position: fixed;
+      z-index: 30;
+      right: calc(var(--space-4) + env(safe-area-inset-right));
+      bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+      display: inline-grid;
+      width: 2.875rem;
+      height: 2.875rem;
+      place-items: center;
+      border: 1px solid var(--color-border-strong);
+      border-radius: 50%;
+      background: var(--color-surface-raised);
+      box-shadow: var(--shadow-raised);
+      color: var(--color-accent-strong);
+      cursor: pointer;
+      font-size: var(--text-xl);
+      line-height: 1;
+      transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .mobile-floating-nav:hover,
+    .mobile-floating-nav:focus-visible {
+      border-color: var(--color-accent);
+      background: var(--color-accent-soft);
+      transform: translateY(-1px);
+    }
+
+    .mobile-floating-nav:active {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 48rem) and (prefers-reduced-motion: reduce) {
+    .mobile-floating-nav:hover,
+    .mobile-floating-nav:focus-visible {
+      transform: none;
+    }
+  }
+</style>
